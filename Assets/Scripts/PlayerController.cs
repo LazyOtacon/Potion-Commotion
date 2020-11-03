@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform groundCheckPos;
     [SerializeField] private LayerMask whatIsGround;
 
+
     // Private Variables
     private Rigidbody2D rBody;
     private bool isGrounded = false;
