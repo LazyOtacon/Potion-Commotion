@@ -4,12 +4,22 @@ using UnityEngine;
 
 public class DestroyWithIce : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    [SerializeField] public float HitPoints = 1;
+
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.gameObject.tag.Equals("Ice"))
+
+        if (other.gameObject.tag.Equals("Ice"))
         {
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
+            //Destroy(gameObject);
+            HitPoints -= 1;
+        }
+
+        if (HitPoints <= 0)
+        {
             Destroy(gameObject);
         }
+
     }
 }
