@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7296711565425309318}
   - component: {fileID: 7296711565425309317}
   m_Layer: 0
-  m_Name: Page
+  m_Name: Platform Page
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 210e149b37749ae4db9b0f43326c8410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PageSound: {fileID: 8300000, guid: 25b73ff12b0b1e145983b9e44791c313, type: 3}
 --- !u!61 &7296711565425309318
 BoxCollider2D:
   m_ObjectHideFlags: 0

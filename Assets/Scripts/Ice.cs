@@ -12,10 +12,17 @@ public class Ice : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag != "Confiner")
+        if (other.tag != "Confiner" && other.tag != "Boundry")
         {
             Destroy(gameObject);
         }
 
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Boundry")
+        {
+            Destroy(gameObject);
+        }
     }
 }
