@@ -13,6 +13,7 @@ public class CreatePlatform : MonoBehaviour
     public GameObject preview;
     public GameObject platformPrefab;
     public bool canplatform = false;
+    public AudioClip platformsound;
 
 
 
@@ -54,6 +55,7 @@ public class CreatePlatform : MonoBehaviour
             platformFinder = GameObject.FindGameObjectWithTag("Platform");
             Object.Destroy(platformFinder);
             timestamp = Time.time + CastDelay;
+            GetComponent<AudioSource>().PlayOneShot(platformsound);
         }
 
     }

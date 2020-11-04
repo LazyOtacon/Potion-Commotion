@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private float timer = 0;
     private bool isFacingRight = true;
     private Animator anim;
+    public static bool invulnerable = false;
 
 
     // Start is called before the first frame update
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
     private bool GroundCheck()
     {
         return Physics2D.OverlapCircle(groundCheckPos.position, groundCheckRadius, whatIsGround);
@@ -94,7 +96,8 @@ public class PlayerController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
+
         }
     }
 

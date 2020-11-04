@@ -14,10 +14,12 @@ public class DestroyWithIce : MonoBehaviour
             Destroy(other.gameObject);
             //Destroy(gameObject);
             HitPoints -= 1;
+            GetComponent<AudioSource>().Play();
         }
 
         if (HitPoints <= 0)
         {
+            GetComponent<AudioSource>().Play();
             Destroy(gameObject);
         }
 

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Platform
   - Ice
+  - Enemy
+  - Confiner
   layers:
   - Default
   - TransparentFX

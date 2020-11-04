@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PlatformPage : MonoBehaviour
 {
-
+    public AudioClip PageSound;
     public static bool allowPlatform = false;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        allowPlatform = true;
-        Destroy(gameObject);
+        if (other.tag == "Player")
+        {
+            allowPlatform = true;
+            Destroy(gameObject);
+            AudioSource.PlayClipAtPoint(PageSound, this.gameObject.transform.position);
+        }
     }
 }
