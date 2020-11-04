@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 500.0f;
     [SerializeField] public float fallMulti;
     [SerializeField] public float lowfall;
+    [SerializeField] public bool canGravity = false;
 
 
 
@@ -23,8 +24,11 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded = false;
     private float timer = 0;
     private bool isFacingRight = true;
+    private bool isFacingUp = true;
+    public static bool ReverseGravity = false;
     private Animator anim;
     public static bool invulnerable = false;
+    bool isDucking = false;
 
 
     // Start is called before the first frame update
@@ -39,25 +43,40 @@ public class PlayerController : MonoBehaviour
     {
         float hori = Input.GetAxis("Horizontal");
         float verti = Input.GetAxis("Vertical");
-        bool isDucking = false;
         isGrounded = GroundCheck();
 
         rBody.velocity = new Vector2(hori * speed, rBody.velocity.y);
 
-        // Jump
-        if(isGrounded && (Input.GetAxis("Jump") > 0))
+        // Jump for normal gravity
+        if (isGrounded && (Input.GetAxis("Jump") > 0) && ReverseGravity == false)
         {
             rBody.AddForce(new Vector2(0.0f, jumpForce));
             isGrounded = false;
         }
-        if (rBody.velocity.y < 0)
+        if (rBody.velocity.y < 0 && ReverseGravity == false)
         {
             rBody.velocity += Vector2.up * Physics2D.gravity.y * (fallMulti - 1) * Time.deltaTime;
         }
-        else if (rBody.velocity.y > 0 && !Input.GetButton("Jump"))
+        else if (rBody.velocity.y > 0 && !Input.GetButton("Jump") && ReverseGravity == false)
         {
             rBody.velocity += Vector2.up * Physics2D.gravity.y * (lowfall - 1) * Time.deltaTime;
         }
+
+        // Jump for ReverseGravity
+        if (isGrounded && (Input.GetAxis("Jump") > 0) && ReverseGravity == true)
+        {
+            rBody.AddForce(new Vector2(0.0f, (jumpForce * -1) * 2.5f));
+            isGrounded = false;
+        }
+        if (rBody.velocity.y < 0 && ReverseGravity == true)
+        {
+            rBody.velocity += (Vector2.up * Physics2D.gravity.y * (fallMulti - 1) * Time.deltaTime) / 2.5f;
+        }
+        else if (rBody.velocity.y > 0 && !Input.GetButton("Jump") && ReverseGravity == true)
+        {
+            rBody.velocity += (Vector2.up * Physics2D.gravity.y * (lowfall - 1) * Time.deltaTime) / 2.5f;
+        }
+
 
         //flip player
         if ((isFacingRight && rBody.velocity.x < 0) || (!isFacingRight && rBody.velocity.x > 0))
@@ -65,7 +84,10 @@ public class PlayerController : MonoBehaviour
             Flip();
         }
 
-
+        if (GravityPage.allowGravity == true)
+        {
+            canGravity = true;
+        }
 
         //animator
         anim.SetFloat("xVelocity", Mathf.Abs(rBody.velocity.x));
@@ -73,7 +95,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("IsGround", isGrounded);
         anim.SetBool("isDucking", isDucking);
 
-        //ducking (serves no purpose yet but i loved the sprite) (also broken and does not work and i havent a clue why)
+        //ducking (serves no purpose yet, but i loved the sprite) (F I X E D, dont put variables in update loops like that next time)
         if (verti < 0 && hori == 0)
         {
             isDucking = true;
@@ -82,6 +104,34 @@ public class PlayerController : MonoBehaviour
         {
             isDucking = false;
         }
+
+        //FLIP GRAVITY
+        if (verti > 0 && isGrounded == true && ReverseGravity == false && canGravity == true)
+        {
+            rBody.gravityScale *= - 1;
+            lowfall *= -1;
+            fallMulti *= -1;
+            YFlip();
+            ReverseGravity = true;
+            isGrounded = false;
+        }else if (verti > 0 && isGrounded == true && ReverseGravity == true && canGravity == true)
+        {
+            rBody.gravityScale *= -1;
+            lowfall *= -1;
+            fallMulti *= -1;
+            YFlip();
+            ReverseGravity = false;
+            isGrounded = false;
+        }
+
+        //if (verti > 0 && isGrounded == true && ReverseGravity == true && canGravity == true)
+        //{
+        //rBody.gravityScale *= -1;
+        //lowfall *= -1;
+        //fallMulti *= -1;
+        //YFlip();
+        //ReverseGravity = false;
+        //}
 
     }
 
@@ -94,10 +144,9 @@ public class PlayerController : MonoBehaviour
     // Detect when the enemy collides with the player
     void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("EnemyBullet"))
         {
             Destroy(gameObject);
-
         }
     }
 
@@ -109,6 +158,12 @@ public class PlayerController : MonoBehaviour
         isFacingRight = !isFacingRight;
     }
 
-
+    private void YFlip()
+    {
+        Vector3 temp = transform.localScale;
+        temp.y *= -1;
+        transform.localScale = temp;
+        isFacingUp = !isFacingUp;
+    }
 
 }

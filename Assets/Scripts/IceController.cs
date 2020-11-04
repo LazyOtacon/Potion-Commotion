@@ -28,6 +28,13 @@ public class IceController : MonoBehaviour
     {
         GameObject ice = Instantiate(IcePrefab, firePoint.position, firePoint.rotation);
         Rigidbody2D rb = ice.GetComponent<Rigidbody2D>();
-        rb.AddForce(firePoint.up * IceForce, ForceMode2D.Impulse);
+        if (PlayerController.ReverseGravity == false)
+        {
+            rb.AddForce(firePoint.up * IceForce, ForceMode2D.Impulse);
+        }else if (PlayerController.ReverseGravity == true)
+        {
+            rb.AddForce(firePoint.up * IceForce * -1, ForceMode2D.Impulse);
+        }
+
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Confiner
   - Boundry
+  - EnemyBullet
   layers:
   - Default
   - TransparentFX
