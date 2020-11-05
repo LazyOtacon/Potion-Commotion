@@ -10,6 +10,7 @@ TagManager:
   - Confiner
   - Boundry
   - EnemyBullet
+  - Win
   layers:
   - Default
   - TransparentFX

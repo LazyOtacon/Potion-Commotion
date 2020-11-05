@@ -147,6 +147,13 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Enemy") || other.gameObject.CompareTag("EnemyBullet"))
         {
             Destroy(gameObject);
+            WinAndDeathText.IsDeath = true;
+        }
+
+        if (other.gameObject.CompareTag("Win"))
+        {
+            Destroy(gameObject);
+            WinAndDeathText.IsWin = true;
         }
     }
 
