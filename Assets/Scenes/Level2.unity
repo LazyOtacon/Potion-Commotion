@@ -3826,6 +3826,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Win
       objectReference: {fileID: 0}
+    - target: {fileID: 441395304123220805, guid: ee07d547ceedfe644b635fd95c42a4b4, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c7b1ecb854ef66d40a61a589a8a99c90, type: 3}
     - target: {fileID: 441395304123220806, guid: ee07d547ceedfe644b635fd95c42a4b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 98.40329
