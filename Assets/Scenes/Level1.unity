@@ -6052,7 +6052,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 91
+    m_FontSize: 53
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
@@ -6063,7 +6063,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Game Over
+  m_Text: 'Game Over
+
+    hit "E" to Restart'
 --- !u!222 &1773207918
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6188,11 +6190,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1166604467468764446, guid: 574c9ff2df027834e8366a09b1d8fb59, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.822889
+      value: -6.831615
       objectReference: {fileID: 0}
     - target: {fileID: 1166604467468764446, guid: 574c9ff2df027834e8366a09b1d8fb59, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.6003218
+      value: -2.6002717
       objectReference: {fileID: 0}
     - target: {fileID: 1166604467468764640, guid: 574c9ff2df027834e8366a09b1d8fb59, type: 3}
       propertyPath: preview

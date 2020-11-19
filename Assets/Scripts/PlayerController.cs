@@ -148,12 +148,14 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(gameObject);
             WinAndDeathText.IsDeath = true;
+            ReverseGravity = false;
         }
 
         if (other.gameObject.CompareTag("Win"))
         {
             Destroy(gameObject);
             WinAndDeathText.IsWin = true;
+            ReverseGravity = false;
         }
     }
 
