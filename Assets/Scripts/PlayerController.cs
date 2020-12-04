@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
     public static bool invulnerable = false;
     bool isDucking = false;
+    private bool isLevelEnd = false;
 
 
     // Start is called before the first frame update
@@ -41,98 +42,109 @@ public class PlayerController : MonoBehaviour
     // Physics (Update is called once per frame)
     private void FixedUpdate()
     {
-        float hori = Input.GetAxis("Horizontal");
-        float verti = Input.GetAxis("Vertical");
-        isGrounded = GroundCheck();
+        if (isLevelEnd == false)
+        {
 
-        rBody.velocity = new Vector2(hori * speed, rBody.velocity.y);
+            float hori = Input.GetAxis("Horizontal");
+            float verti = Input.GetAxis("Vertical");
+            isGrounded = GroundCheck();
 
-        // Jump for normal gravity
-        if (isGrounded && (Input.GetAxis("Jump") > 0) && ReverseGravity == false)
-        {
-            rBody.AddForce(new Vector2(0.0f, jumpForce));
-            isGrounded = false;
-        }
-        if (rBody.velocity.y < 0 && ReverseGravity == false)
-        {
-            rBody.velocity += Vector2.up * Physics2D.gravity.y * (fallMulti - 1) * Time.deltaTime;
-        }
-        else if (rBody.velocity.y > 0 && !Input.GetButton("Jump") && ReverseGravity == false)
-        {
-            rBody.velocity += Vector2.up * Physics2D.gravity.y * (lowfall - 1) * Time.deltaTime;
-        }
+            rBody.velocity = new Vector2(hori * speed, rBody.velocity.y);
 
-        // Jump for ReverseGravity
-        if (isGrounded && (Input.GetAxis("Jump") > 0) && ReverseGravity == true)
-        {
-            rBody.AddForce(new Vector2(0.0f, (jumpForce * -1) * 2.5f));
-            isGrounded = false;
-        }
-        if (rBody.velocity.y < 0 && ReverseGravity == true)
-        {
-            rBody.velocity += (Vector2.up * Physics2D.gravity.y * (fallMulti - 1) * Time.deltaTime) / 2.5f;
-        }
-        else if (rBody.velocity.y > 0 && !Input.GetButton("Jump") && ReverseGravity == true)
-        {
-            rBody.velocity += (Vector2.up * Physics2D.gravity.y * (lowfall - 1) * Time.deltaTime) / 2.5f;
-        }
+            // Jump for normal gravity
+            if (isGrounded && (Input.GetAxis("Jump") > 0) && ReverseGravity == false)
+            {
+                rBody.AddForce(new Vector2(0.0f, jumpForce));
+                isGrounded = false;
+            }
+            if (rBody.velocity.y < 0 && ReverseGravity == false)
+            {
+                rBody.velocity += Vector2.up * Physics2D.gravity.y * (fallMulti - 1) * Time.deltaTime;
+            }
+            else if (rBody.velocity.y > 0 && !Input.GetButton("Jump") && ReverseGravity == false)
+            {
+                rBody.velocity += Vector2.up * Physics2D.gravity.y * (lowfall - 1) * Time.deltaTime;
+            }
+
+            // Jump for ReverseGravity
+            if (isGrounded && (Input.GetAxis("Jump") > 0) && ReverseGravity == true)
+            {
+                rBody.AddForce(new Vector2(0.0f, (jumpForce * -1) * 2.5f));
+                isGrounded = false;
+            }
+            if (rBody.velocity.y < 0 && ReverseGravity == true)
+            {
+                rBody.velocity += (Vector2.up * Physics2D.gravity.y * (fallMulti - 1) * Time.deltaTime) / 2.5f;
+            }
+            else if (rBody.velocity.y > 0 && !Input.GetButton("Jump") && ReverseGravity == true)
+            {
+                rBody.velocity += (Vector2.up * Physics2D.gravity.y * (lowfall - 1) * Time.deltaTime) / 2.5f;
+            }
 
 
-        //flip player
-        if ((isFacingRight && rBody.velocity.x < 0) || (!isFacingRight && rBody.velocity.x > 0))
-        {
-            Flip();
-        }
+            //flip player
+            if ((isFacingRight && rBody.velocity.x < 0) || (!isFacingRight && rBody.velocity.x > 0))
+            {
+                Flip();
+            }
 
-        if (GravityPage.allowGravity == true)
-        {
-            canGravity = true;
-        }
+            if (GravityPage.allowGravity == true)
+            {
+                canGravity = true;
+            }
 
-        //animator
-        anim.SetFloat("xVelocity", Mathf.Abs(rBody.velocity.x));
-        anim.SetFloat("yVelocity", rBody.velocity.y);
-        anim.SetBool("IsGround", isGrounded);
-        anim.SetBool("isDucking", isDucking);
+            //animator
+            anim.SetFloat("xVelocity", Mathf.Abs(rBody.velocity.x));
+            anim.SetFloat("yVelocity", rBody.velocity.y);
+            anim.SetBool("IsGround", isGrounded);
+            anim.SetBool("isDucking", isDucking);
 
-        //ducking (serves no purpose yet, but i loved the sprite) (F I X E D, dont put variables in update loops like that next time)
-        if (verti < 0 && hori == 0)
-        {
-            isDucking = true;
+            //ducking (serves no purpose yet, but i loved the sprite) (F I X E D, dont put variables in update loops like that next time)
+            if (verti < 0 && hori == 0)
+            {
+                isDucking = true;
+            }
+            else
+            {
+                isDucking = false;
+            }
+
+            //FLIP GRAVITY
+            if (verti > 0 && isGrounded == true && ReverseGravity == false && canGravity == true)
+            {
+                rBody.gravityScale *= -1;
+                lowfall *= -1;
+                fallMulti *= -1;
+                YFlip();
+                ReverseGravity = true;
+                isGrounded = false;
+            }
+            else if (verti > 0 && isGrounded == true && ReverseGravity == true && canGravity == true)
+            {
+                rBody.gravityScale *= -1;
+                lowfall *= -1;
+                fallMulti *= -1;
+                YFlip();
+                ReverseGravity = false;
+                isGrounded = false;
+            }
+
+            //if (verti > 0 && isGrounded == true && ReverseGravity == true && canGravity == true)
+            //{
+            //rBody.gravityScale *= -1;
+            //lowfall *= -1;
+            //fallMulti *= -1;
+            //YFlip();
+            //ReverseGravity = false;
+            //}
         }
         else
         {
-            isDucking = false;
+            anim.SetFloat("xVelocity", 0.0f);
+            anim.SetFloat("yVelocity", 0.0f);
+            anim.SetBool("IsGround", true);
+            rBody.velocity = new Vector2(0, rBody.velocity.y);
         }
-
-        //FLIP GRAVITY
-        if (verti > 0 && isGrounded == true && ReverseGravity == false && canGravity == true)
-        {
-            rBody.gravityScale *= - 1;
-            lowfall *= -1;
-            fallMulti *= -1;
-            YFlip();
-            ReverseGravity = true;
-            isGrounded = false;
-        }else if (verti > 0 && isGrounded == true && ReverseGravity == true && canGravity == true)
-        {
-            rBody.gravityScale *= -1;
-            lowfall *= -1;
-            fallMulti *= -1;
-            YFlip();
-            ReverseGravity = false;
-            isGrounded = false;
-        }
-
-        //if (verti > 0 && isGrounded == true && ReverseGravity == true && canGravity == true)
-        //{
-        //rBody.gravityScale *= -1;
-        //lowfall *= -1;
-        //fallMulti *= -1;
-        //YFlip();
-        //ReverseGravity = false;
-        //}
-
     }
 
 
@@ -173,6 +185,11 @@ public class PlayerController : MonoBehaviour
         temp.y *= -1;
         transform.localScale = temp;
         isFacingUp = !isFacingUp;
+    }
+
+    public void LevelEndTrigger()
+    {
+        isLevelEnd = true;
     }
 
 }

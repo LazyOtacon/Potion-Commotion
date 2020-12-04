@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 1763016531}
   - component: {fileID: 3482661585259097673}
   - component: {fileID: 310399210}
+  - component: {fileID: 1863564937791248200}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -143,8 +144,7 @@ MonoBehaviour:
   jumpForce: 250
   fallMulti: 2
   lowfall: 4
-  hitPoints: 3
-  knockback: 100
+  canGravity: 0
   groundCheckRadius: 0.15
   groundCheckPos: {fileID: 9080511103732020094}
   whatIsGround:
@@ -282,6 +282,36 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1863564937791248200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080511101825588257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: a4f272a24ca434d4aad3775566cce321, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 9080511101825588270}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: LevelEndTrigger
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &9080511102218895975
 GameObject:
   m_ObjectHideFlags: 0
